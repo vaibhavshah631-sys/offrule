@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OFFRULE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #0E0D0C;
+    --ink-2: #17140F;
+    --bone: #EDE7DD;
+    --bone-dim: #C9C2B4;
+    --ash: #8A857D;
+    --oxblood: #7A2323;
+    --oxblood-bright: #9C2E2E;
+    --oxblood-dim: #3A1414;
+    --line: rgba(237,231,221,0.14);
+    --max: 1180px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--ink);
+    color: var(--bone);
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .display{
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 900;
+    letter-spacing: 0.01em;
+  }
+
+  a{ color: inherit; }
+
+  :focus-visible{
+    outline: 2px solid var(--oxblood-bright);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+
+  .wrap{
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    padding: 26px 0 0;
+  }
+  nav.wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .mark{
+    display:flex;
+    align-items:center;
+    font-size: 1.3rem;
+    letter-spacing: 0.04em;
+  }
+  .mark .cut-wrap-sm{
+    position: relative;
+    display: inline-block;
+  }
+  .mark .cut-wrap-sm span.cut-sm{
+    position: absolute;
+    left: -6%;
+    top: 42%;
+    width: 112%;
+    height: 0.16em;
+    background: var(--oxblood-bright);
+    transform: skewY(-3deg);
+    z-index: 2;
+  }
+  .mark .cut-wrap-sm .letters{
+    position: relative;
+    z-index: 1;
+  }
+  .nav-links{
+    display:flex;
+    gap: 28px;
+    font-size: 0.85rem;
+    color: var(--ash);
+  }
+  .nav-links a{ text-decoration:none; }
+  .nav-links a:hover{ color: var(--bone); }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position: relative;
+    padding: clamp(60px, 12vw, 140px) 0 clamp(50px, 8vw, 90px);
+    overflow: hidden;
+  }
+  .hero-inner{
+    position: relative;
+    max-width: 760px;
+  }
+  .eyebrow{
+    color: var(--ash);
+    font-size: 0.92rem;
+    margin: 0 0 18px;
+    max-width: 34ch;
+  }
+  h1.hero-title{
+    position: relative;
+    font-size: clamp(3.2rem, 10vw, 7.2rem);
+    line-height: 0.92;
+    margin: 0 0 28px;
+    display: inline-block;
+  }
+  .cut-wrap{
+    position: relative;
+    display: inline-block;
+  }
+  .cut-wrap .cut{
+    position: absolute;
+    left: -4%;
+    top: 46%;
+    width: 108%;
+    height: 0.12em;
+    background: var(--oxblood-bright);
+    transform: skewY(-3deg);
+    z-index: 2;
+  }
+  h1.hero-title span.word{
+    position: relative;
+    z-index: 1;
+  }
+  .hero-copy{
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--bone-dim);
+    max-width: 46ch;
+    margin: 0 0 40px;
+  }
+
+  form.notify{
+    display:flex;
+    gap: 0;
+    max-width: 440px;
+    border: 1px solid var(--line);
+  }
+  form.notify input[type="email"]{
+    flex:1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    padding: 16px 18px;
+    color: var(--bone);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.95rem;
+  }
+  form.notify input[type="email"]::placeholder{ color: var(--ash); }
+  form.notify input[type="email"]:focus{ outline: none; background: rgba(237,231,221,0.03); }
+  form.notify button{
+    border: none;
+    background: var(--oxblood);
+    color: var(--bone);
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 16px 24px;
+    cursor: pointer;
+    transition: background 160ms ease;
+    white-space: nowrap;
+  }
+  form.notify button:hover{ background: var(--oxblood-bright); }
+
+  .notify-msg{
+    margin-top: 14px;
+    font-size: 0.85rem;
+    color: var(--ash);
+    min-height: 1.2em;
+  }
+  .notify-msg.active{ color: var(--oxblood-bright); }
+
+  /* ---------- MANIFESTO ---------- */
+  .manifesto{
+    border-top: 1px solid var(--line);
+    padding: clamp(50px, 8vw, 90px) 0;
+  }
+  .manifesto .wrap{
+    display:grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .manifesto h2{
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+    line-height: 1;
+    margin: 0;
+    color: var(--bone);
+  }
+  .manifesto p{
+    font-size: 1.02rem;
+    line-height: 1.75;
+    color: var(--bone-dim);
+    margin: 0 0 18px;
+    max-width: 60ch;
+  }
+  .manifesto p:last-child{ margin-bottom:0; }
+
+  @media (max-width: 760px){
+    .manifesto .wrap{ grid-template-columns: 1fr; gap: 20px; }
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top: 1px solid var(--line);
+    padding: 32px 0 40px;
+  }
+  footer .wrap{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .social-links{
+    display:flex;
+    gap: 22px;
+    font-size: 0.85rem;
+    color: var(--ash);
+  }
+  .social-links a{ text-decoration: none; }
+  .social-links a:hover{ color: var(--bone); }
+  .fine-print{
+    font-size: 0.78rem;
+    color: var(--ash);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="mark display">OFF<span class="cut-wrap-sm"><span class="letters">RULE</span><span class="cut-sm" aria-hidden="true"></span></span></div>
+    <div class="nav-links">
+      <a href="#manifesto">Manifesto</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-inner">
+    <p class="eyebrow">A streetwear label opening its first chapter.</p>
+    <h1 class="hero-title display">
+      <span class="word">SOME RULES</span><br>
+      <span class="word cut-wrap">ARE MEANT<span class="cut" aria-hidden="true"></span></span><br>
+      <span class="word">TO BREAK.</span>
+    </h1>
+    <p class="hero-copy">OFFRULE sits where unfiltered creativity meets street tailoring — garments built around a single broken rule instead of a mood board. First drop is in progress.</p>
+
+    <form class="notify" id="notifyForm">
+      <label for="notifyEmail" style="position:absolute;left:-9999px;">Email address</label>
+      <input type="email" id="notifyEmail" name="email" placeholder="you@email.com" required>
+      <button type="submit">Notify me</button>
+    </form>
+    <p class="notify-msg" id="notifyMsg"></p>
+  </div>
+</section>
+
+<section class="manifesto" id="manifesto">
+  <div class="wrap">
+    <h2>The rule<br>was never<br>the point.</h2>
+    <div>
+      <p>Most labels start with a mood board. OFFRULE started with a line — the one you're supposed to stay inside of. We cut through it instead, and built the brand around the break: a wordmark sliced by a single stroke, a palette that stays quiet until it doesn't.</p>
+      <p>Every piece carries that same instinct. Clean construction, sharp linework, and one deliberate rule broken somewhere on the garment — never louder than the cut, never softer than the concept.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="social-links">
+      <a href="#" target="_blank" rel="noopener">Instagram</a>
+      <a href="#" target="_blank" rel="noopener">TikTok</a>
+    </div>
+    <p class="fine-print">&copy; 2026 OFFRULE. First drop coming soon.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('notifyForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var msg = document.getElementById('notifyMsg');
+    var email = document.getElementById('notifyEmail').value;
+    if(email){
+      msg.textContent = "You're on the list — we'll email you when the first drop lands.";
+      msg.classList.add('active');
+      this.reset();
+    }
+  });
+</script>
+
+</body>
+</html>
