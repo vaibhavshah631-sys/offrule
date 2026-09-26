@@ -297,9 +297,7 @@
     </h1>
     <p class="hero-copy">OFFRULE sits where unfiltered creativity meets street tailoring — garments built around a single broken rule instead of a mood board. First drop is in progress.</p>
 
-    <form class="notify" id="notifyForm" name="notify" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-      <input type="hidden" name="form-name" value="notify">
-      <p style="position:absolute;left:-9999px;"><label>Don't fill this out: <input name="bot-field"></label></p>
+    <form class="notify" id="notifyForm" action="https://formspree.io/f/mdekwbqj" method="POST">
       <label for="notifyEmail" style="position:absolute;left:-9999px;">Email address</label>
       <input type="email" id="notifyEmail" name="email" placeholder="you@email.com" required>
       <button type="submit">Notify me</button>
@@ -336,12 +334,6 @@
 </footer>
 
 <script>
-  function encodeForm(data){
-    return Object.keys(data)
-      .map(function(key){ return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]); })
-      .join('&');
-  }
-
   var notifyForm = document.getElementById('notifyForm');
   notifyForm.addEventListener('submit', function(e){
     e.preventDefault();
@@ -349,15 +341,20 @@
     var email = document.getElementById('notifyEmail').value;
     if(!email) return;
 
-    fetch('/', {
+    fetch(notifyForm.action, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: encodeForm({ 'form-name': 'notify', email: email })
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(notifyForm)
     })
-    .then(function(){
-      msg.textContent = "You're on the list — we'll email you when the first drop lands.";
-      msg.classList.add('active');
-      notifyForm.reset();
+    .then(function(response){
+      if(response.ok){
+        msg.textContent = "You're on the list — we'll email you when the first drop lands.";
+        msg.classList.add('active');
+        notifyForm.reset();
+      } else {
+        msg.textContent = "Something went wrong — please try again.";
+        msg.classList.add('active');
+      }
     })
     .catch(function(){
       msg.textContent = "Something went wrong — please try again.";
