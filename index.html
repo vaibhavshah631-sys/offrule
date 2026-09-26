@@ -186,6 +186,37 @@
   }
   .notify-msg.active{ color: var(--oxblood-bright); }
 
+  /* ---------- STORY ---------- */
+  .story{
+    border-top: 1px solid var(--line);
+    padding: clamp(50px, 8vw, 90px) 0;
+  }
+  .story .wrap{
+    display:grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .story h2{
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+    line-height: 1;
+    margin: 0;
+    color: var(--bone);
+  }
+  .story p{
+    font-size: 1.02rem;
+    line-height: 1.75;
+    color: var(--bone-dim);
+    margin: 0;
+    max-width: 60ch;
+  }
+
+  @media (max-width: 760px){
+    .story .wrap{ grid-template-columns: 1fr; gap: 20px; }
+  }
+
   /* ---------- MANIFESTO ---------- */
   .manifesto{
     border-top: 1px solid var(--line);
@@ -250,6 +281,7 @@
   <nav class="wrap">
     <div class="mark display">OFF<span class="cut-wrap-sm"><span class="letters">RULE</span><span class="cut-sm" aria-hidden="true"></span></span></div>
     <div class="nav-links">
+      <a href="#story">Story</a>
       <a href="#manifesto">Manifesto</a>
     </div>
   </nav>
@@ -265,12 +297,21 @@
     </h1>
     <p class="hero-copy">OFFRULE sits where unfiltered creativity meets street tailoring — garments built around a single broken rule instead of a mood board. First drop is in progress.</p>
 
-    <form class="notify" id="notifyForm">
+    <form class="notify" id="notifyForm" name="notify" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="notify">
+      <p style="position:absolute;left:-9999px;"><label>Don't fill this out: <input name="bot-field"></label></p>
       <label for="notifyEmail" style="position:absolute;left:-9999px;">Email address</label>
       <input type="email" id="notifyEmail" name="email" placeholder="you@email.com" required>
       <button type="submit">Notify me</button>
     </form>
     <p class="notify-msg" id="notifyMsg"></p>
+  </div>
+</section>
+
+<section class="story" id="story">
+  <div class="wrap">
+    <h2>Two friends.<br>Zero rulebook.</h2>
+    <p>OFFRULE Clothing was built the same way our designs are — by ignoring the part of the story where you're supposed to wait for permission.</p>
   </div>
 </section>
 
@@ -295,15 +336,33 @@
 </footer>
 
 <script>
-  document.getElementById('notifyForm').addEventListener('submit', function(e){
+  function encodeForm(data){
+    return Object.keys(data)
+      .map(function(key){ return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]); })
+      .join('&');
+  }
+
+  var notifyForm = document.getElementById('notifyForm');
+  notifyForm.addEventListener('submit', function(e){
     e.preventDefault();
     var msg = document.getElementById('notifyMsg');
     var email = document.getElementById('notifyEmail').value;
-    if(email){
+    if(!email) return;
+
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: encodeForm({ 'form-name': 'notify', email: email })
+    })
+    .then(function(){
       msg.textContent = "You're on the list — we'll email you when the first drop lands.";
       msg.classList.add('active');
-      this.reset();
-    }
+      notifyForm.reset();
+    })
+    .catch(function(){
+      msg.textContent = "Something went wrong — please try again.";
+      msg.classList.add('active');
+    });
   });
 </script>
 
